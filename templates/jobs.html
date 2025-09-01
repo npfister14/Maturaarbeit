@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Jobs</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_jobs.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Verfügbare Berufe</h1>
+
+        {% if jobs is not defined %}
+            <div class="empty">.</div>
+        {% else %}
+            {% if jobs|length == 0 %}
+                <div class="empty">Es gibt in dieser Kategorie zurzeit keine vefügbaren Stellen</div>
+            {% else %}
+                <div class="list">
+                    {% for job in jobs %}
+                        <article class="card job-card" id="job-{{ job.id or loop.index }}" tabindex="0">
+                            <h2 class="job-title">{{ job.name or "Untitled position" }}</h2>    
+                            <div class="actions">
+                                <button class="btn" onclick='window.location.href="/job/{{ job.id }}"'>Choose</button>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            color: #222;
+        }
+        .container {
+            max-width: 700px;
+            margin: 80px auto;
+            padding: 40px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 32px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 32px;
+            background: #3498db;
+            color: #fff;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background: #217dbb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Choose a Job Category{% if username %}, {{ username }}{% endif %}</h1>
+        <form method="post">
+            <label for="category">Job Category</label>
+            <select name="category" id="category">
+                {% for category in categories %}
+                <option value="{{ category }}">{{ category }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn">Show Jobs</button>
+        </form>
+        <a href="/logout" class="btn" style="margin-top:20px;">Logout</a>
+    </div>
+</body>
+</html>

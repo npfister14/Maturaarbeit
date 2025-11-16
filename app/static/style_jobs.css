@@ -1,0 +1,131 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  background-color: #1e1e1e; /* matte dark grey */
+  color: #e0e0e0;
+  line-height: 1.6;
+}
+
+/* Layout container */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Headings */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #ffffff;
+}
+
+h2.title {
+  font-size: 1.25rem;
+  margin-bottom: 0.3rem;
+  color: #ffffff;
+}
+
+/* Empty state */
+.empty {
+  text-align: center;
+  padding: 1.5rem;
+  background: #2a2a2a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: #aaa;
+}
+
+/* Job list grid */
+.list {
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* Job card */
+.card {
+  display: flex;
+  gap: 1rem;
+  padding: 1.2rem;
+  background: #2a2a2a;
+  border: 1px solid #333;
+  border-radius: 10px;
+  align-items: flex-start;
+}
+
+.card .meta {
+  font-size: 0.85rem;
+  color: #bbb;
+  min-width: 120px;
+}
+
+.card .company {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #cfd8dc;
+  margin-bottom: 0.5rem;
+}
+
+.card .desc {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+/* Tags */
+.tags {
+  margin-top: 0.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  background: #3a3a3a;
+  color: #ddd;
+  padding: 0.25rem 0.6rem;
+  border-radius: 5px;
+  font-size: 0.8rem;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: #4cafef;
+  color: #1e1e1e;
+  text-decoration: none;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #66ccff;
+}
+
+.btn.secondary {
+  background: #444;
+  color: #bbb;
+}
+
+.btn.secondary:hover {
+  background: #555;
+  color: #fff;
+}

@@ -118,6 +118,6 @@ class Job:
                         compensation=job_dict.get('compensation'),
                         saved_at=job_dict.get('saved_at')
                     )
-                    job.id = job_dict['id']  # preserve original id
+                    job.id = job_dict['id']  
                     return job
         return None

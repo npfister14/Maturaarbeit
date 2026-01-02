@@ -21,11 +21,12 @@ def get_username_by_token(token):
 def is_logged_in(request):
     #luegt ob igloggt, wenn ja, return user
     token = request.cookies.get("user_token")
-    print("Token from cookies:", token)
     if not token:
-        print("User is not logged in")
         return None
-    else:
-        print("User is logged in")
-        user = User(username=get_username_by_token(token))
-        return user
+
+    username = get_username_by_token(token)
+    if not username:
+        # token existiert aber isch ungültig/abglaufe
+        return None
+
+    return User(username=username)

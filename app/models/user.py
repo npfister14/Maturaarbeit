@@ -26,7 +26,7 @@ class User:
                 self.favorites = user.get('favorites', [])
                 self.cv = user.get('cv')
                 if self.token is None:
-                    self.token = secrets.token_urlsafe(16)
+                    self.token = secrets.token_urlsafe(32)
                 if email != None:
                     self.email = email
                 if password != None:
@@ -35,10 +35,10 @@ class User:
                 print("User not found, creating new user.")
                 self.email = email
                 self.password = password
-                self.token = secrets.token_urlsafe(16)
+                self.token = secrets.token_urlsafe(32)
 
     def generate_token(self):
-        self.token = secrets.token_urlsafe(16)
+        self.token = secrets.token_urlsafe(32)
         return self.token
 
 
@@ -58,13 +58,17 @@ class User:
                 'favorites': [],
                 'cv': None
             })
+            # zrugg zum afang und überschriebe
             f.seek(0)
+
             json.dump(users, f)
+            #überschüssige text lösche
             f.truncate()
 
     def save_user(self):
         with open(USERS_FILE, 'r+') as f:
             users = json.load(f)
+            #erste nutzer mit username finde und zrugggeh, suscht none
             user = next((u for u in users if u['username'] == self.username), None)
             if user:
                 print("Updating user:", self.username)
@@ -92,3 +96,13 @@ class User:
         self.cv = cv_path
         self.save_user()
     
+##scheme of a user object for visualization
+
+class UserSchema:
+    def __init__(self, user: User):
+        self.username = username
+        self.email = email
+        self.pwd = password
+        self.token = token
+        self.favorites = favorites
+        self.cv = cv

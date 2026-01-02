@@ -1,120 +1,47 @@
 {% extends "base.html" %}
 
-{% block title %}Favorite Jobs - JobTracker{% endblock %}
+{% block title %}Favoriten - JobTracker{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- Header -->
-    <div class="mb-8 animate-fade-in">
-        <div class="flex items-center justify-between">
-            <div>
-                <h1 class="text-3xl font-bold text-dark-text mb-2 flex items-center">
-                    <svg class="w-8 h-8 mr-3 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                    </svg>
-                    Favorite Jobs
-                </h1>
-                <p class="text-dark-muted">
-                    {% if favorites and favorites|length > 0 %}
-                        You have {{ favorites|length }} favorite job{{ 's' if favorites|length != 1 else '' }}
-                    {% else %}
-                        No favorites saved yet
-                    {% endif %}
-                </p>
-            </div>
-            <a href="/search_job" class="btn-primary">
-                <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                </svg>
-                Search Jobs
-            </a>
+<div class="max-w-5xl mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-2xl font-bold mb-1">Gespeicherte Jobs</h1>
+            <p class="text-dark-muted text-sm">
+                {% if favorites and favorites|length > 0 %}
+                    {{ favorites|length }} gespeichert
+                {% else %}
+                    Noch keine Favoriten
+                {% endif %}
+            </p>
         </div>
+        <a href="/search_job" class="btn-primary">Jobs suchen</a>
     </div>
 
     {% if not favorites or favorites|length == 0 %}
-        <!-- Empty State -->
-        <div class="card text-center py-16 animate-fade-in">
-            <svg class="w-24 h-24 mx-auto text-dark-muted mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-            </svg>
-            <h3 class="text-xl font-semibold mb-2">No Favorite Jobs Yet</h3>
-            <p class="text-dark-muted mb-6">Start adding jobs to your favorites to see them here</p>
-            <a href="/search_job" class="btn-primary inline-flex items-center">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                </svg>
-                Search Jobs
-            </a>
+        <div class="card text-center py-12">
+            <p class="text-dark-muted mb-4">Noch keine gespeicherten Jobs</p>
+            <a href="/search_job" class="btn-primary">Jobs finden</a>
         </div>
     {% else %}
-        <!-- Favorites Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {% for job in favorites %}
                 {% set jid = job.get('id') if job.get('id') is not none else loop.index %}
-                <div class="job-card group animate-slide-up" style="animation-delay: {{ (loop.index0 * 0.05) }}s">
-                    <!-- Favorite Badge -->
-                    <div class="absolute top-4 right-4 z-10">
-                        <svg class="w-6 h-6 text-red-400 fill-current" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                        </svg>
-                    </div>
+                <div class="job-card">
+                    <p class="text-blue-400 text-sm mb-1">{{ job.get('company') or 'Unbekannt' }}</p>
+                    <h3 class="font-semibold mb-2">{{ job.get('title') or job.get('name') or 'Ohne Titel' }}</h3>
 
-                    <!-- Job Header -->
-                    <div class="flex items-start justify-between mb-3">
-                        <div class="flex-1 pr-8">
-                            <div class="text-blue-400 font-semibold text-sm mb-1">
-                                {{ job.get('company') or 'Unknown Company' }}
-                            </div>
-                            <h3 class="job-title text-xl font-bold text-dark-text transition-colors duration-200">
-                                {{ job.get('title') or job.get('name') or 'Untitled Position' }}
-                            </h3>
-                        </div>
-                    </div>
-
-                    <!-- Job Tags -->
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span class="px-3 py-1 bg-dark-elevated text-dark-muted text-xs rounded-full border border-dark-border">
-                            {{ job.get('category') or 'General' }}
-                        </span>
-                        {% if job.get('location') %}
-                            <span class="px-3 py-1 bg-dark-elevated text-dark-muted text-xs rounded-full border border-dark-border flex items-center">
-                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"/>
-                                </svg>
-                                {{ job.get('location') }}
-                            </span>
-                        {% endif %}
-                        {% if job.get('job_type') %}
-                            <span class="px-3 py-1 bg-blue-500/10 text-blue-400 text-xs rounded-full border border-blue-500/20">
-                                {{ job.get('job_type')|capitalize }}
-                            </span>
-                        {% endif %}
-                    </div>
-
-                    <!-- Job Description -->
-                    <p class="text-dark-muted text-sm mb-4 line-clamp-3">
-                        {{ job.get('description', '')|truncate(150) }}
+                    <p class="text-dark-muted text-sm mb-3">
+                        {% if job.get('location') %}{{ job.get('location') }}{% endif %}
                     </p>
 
-                    <!-- Actions -->
-                    <div class="flex items-center gap-2 mt-auto pt-4 border-t border-dark-border">
-                        <a href="/job/{{ jid }}" class="btn-primary flex-1 text-center text-sm">
-                            View Details
-                        </a>
-                        {% if job.get('url') %}
-                            <a href="{{ job.get('url') }}" target="_blank" rel="noopener" class="btn-secondary text-sm">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                                </svg>
-                            </a>
-                        {% endif %}
-                        <form method="POST" action="/jobs/favorites/remove" class="inline-block">
+                    <p class="text-dark-muted text-sm mb-4 line-clamp-2">{{ job.get('description', '')|truncate(100) }}</p>
+
+                    <div class="flex gap-2 pt-3 border-t border-dark-border">
+                        <a href="/job/{{ jid }}" class="btn-primary text-sm flex-1 text-center">Ansehen</a>
+                        <form method="POST" action="/jobs/favorites/remove">
                             <input type="hidden" name="job_id" value="{{ jid }}">
-                            <button type="submit" class="btn-ghost text-sm p-2 hover:text-red-400 transition-colors" title="Remove from favorites">
-                                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                                </svg>
-                            </button>
+                            <button type="submit" class="btn-secondary text-sm">Entfernen</button>
                         </form>
                     </div>
                 </div>
@@ -122,14 +49,8 @@
         </div>
     {% endif %}
 
-    <!-- Back to Jobs -->
-    <div class="mt-8 text-center">
-        <a href="/jobs" class="text-dark-muted hover:text-dark-text inline-flex items-center transition-colors">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-            </svg>
-            Back to All Jobs
-        </a>
+    <div class="mt-6">
+        <a href="/jobs" class="text-dark-muted hover:text-dark-text text-sm">&larr; Alle Jobs</a>
     </div>
 </div>
 {% endblock %}

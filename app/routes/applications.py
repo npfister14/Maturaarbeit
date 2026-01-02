@@ -38,7 +38,7 @@ def create():
     language = request.form.get("language", "de")
 
     if not job_id:
-        flash("No job selected", "error")
+        flash("Kein Job ausgewählt", "error")
         return redirect("/search_job")
 
     # luege ob user scho applied het
@@ -48,7 +48,7 @@ def create():
         #ich weiss es gitt en besser weg das zmache aber er fallt mir grad nd i
         for app in apps:
             if str(app.job_id) == str(job_id):
-                flash("You have already applied to this job", "error")
+                flash("Du hast dich bereits auf diesen Job beworben", "error")
                 return redirect(f"/applications/{app.id}")
 
     # neue application erstelle
@@ -59,7 +59,7 @@ def create():
         status="draft"
     )
     application.save()
-    flash("Application draft created successfully", "success")
+    flash("Bewerbungsentwurf erfolgreich erstellt", "success")
 
     return redirect(f"/applications/{application.id}")
 
@@ -97,11 +97,11 @@ def submit(application_id):
 
     application = Application.get_by_id(application_id)
     if not application or application.user_id != username:
-        flash("Application not found", "error")
+        flash("Bewerbung nicht gefunden", "error")
         return redirect("/applications")
 
     application.mark_submitted()
-    flash("Application marked as submitted", "success")
+    flash("Bewerbung als gesendet markiert", "success")
 
     return redirect(f"/applications/{application_id}")
 
@@ -115,11 +115,11 @@ def delete(application_id):
 
     application = Application.get_by_id(application_id)
     if not application or application.user_id != username:
-        flash("Application not found", "error")
+        flash("Bewerbung nicht gefunden", "error")
         return redirect("/applications")
 
     application.delete()
-    flash("Application deleted successfully", "success")
+    flash("Bewerbung erfolgreich gelöscht", "success")
 
     return redirect("/applications")
 
@@ -135,17 +135,19 @@ def generate_cover_letter(application_id):
     application = Application.get_by_id(application_id)
     #cross user applications verhindere
     if not application or application.user_id != username:
-        flash("Application not found", "error")
+        flash("Bewerbung nicht gefunden", "error")
         return redirect("/applications")
     job = Job.get_job_by_id(application.job_id)
     if not job:
-        flash("Job not found", "error")
+        flash("Job nicht gefunden", "error")
         return redirect("/applications")
+
     # generiere motivationsschriibe
     cover_letter_path = application.generate_cover_letter(job)
     application.cover_letter_path = cover_letter_path
     application.save()
-    flash("Cover letter generated successfully", "success")
+
+    flash("Anschreiben erfolgreich generiert", "success")
 
     return redirect(f"/applications/{application_id}")
 
@@ -193,12 +195,12 @@ def regenerate_cover_letter(application_id):
 
     application = Application.get_by_id(application_id)
     if not application or application.user_id != username:
-        flash("Application not found", "error")
+        flash("Bewerbung nicht gefunden", "error")
         return redirect("/applications")
 
     job = Job.get_job_by_id(application.job_id)
     if not job:
-        flash("Job not found", "error")
+        flash("Job nicht gefunden", "error")
         return redirect("/applications")
 
     # alte cover letter lösche
@@ -212,6 +214,7 @@ def regenerate_cover_letter(application_id):
     cover_letter_path = application.generate_cover_letter(job)
     application.cover_letter_path = cover_letter_path
     application.save()
-    flash("Cover letter regenerated successfully", "success")
+
+    flash("Anschreiben erfolgreich neu generiert", "success")
 
     return redirect(f"/applications/{application_id}")

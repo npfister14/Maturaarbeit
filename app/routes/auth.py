@@ -16,10 +16,10 @@ def login():
             token = user.token
             resp = make_response(redirect("/index"))
             resp.set_cookie("user_token", token)
-            flash(f"Welcome back, {username}!", "success")
+            flash(f"Willkommen zurück, {username}!", "success")
             return resp
         else:
-            flash("Invalid username or password", "error")
+            flash("Ungültiger Benutzername oder Passwort", "error")
             return redirect("/login")
     return render_template("login.html", username=None)
 
@@ -32,7 +32,7 @@ def register():
         user.create_user()
         resp = make_response(redirect("/index"))
         resp.set_cookie("user_token", user.token)
-        flash(f"Account created successfully! Welcome, {username}!", "success")
+        flash(f"Konto erfolgreich erstellt! Willkommen, {username}!", "success")
         return resp
     return render_template("register.html", username=None)
 
@@ -41,5 +41,5 @@ def logout():
     #falls keis login, login page
     resp = make_response(redirect("/login"))
     resp.delete_cookie("user_token")
-    flash("You have been logged out successfully", "success")
+    flash("Du wurdest erfolgreich abgemeldet", "success")
     return resp

@@ -8,7 +8,7 @@ bp = Blueprint('cv', __name__)
 
 # confjgi
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), '..', '..', 'uploads', 'cvs')
-ALLOWED_EXTENSIONS = {'pdf', 'doc', 'docx'}
+ALLOWED_EXTENSIONS = {'pdf', 'docx'}
 MAX_FILE_SIZE = 1024 * 1024 * 1024  # 1 giga?
 
 
@@ -26,14 +26,14 @@ def cv_upload():
     if request.method == "POST":
         # luegt obs au es file het, isch chli buggy
         if 'cv_file' not in request.files:
-            flash("No file selected", "error")
+            flash("Keine Datei ausgewählt", "error")
             return redirect("/cv")
 
         file = request.files['cv_file']
 
         # same eif wege leere files
         if file.filename == '':
-            flash("No file selected", "error")
+            flash("Keine Datei ausgewählt", "error")
             return redirect("/cv")
 
         # file selber und name prüefe
@@ -45,21 +45,21 @@ def cv_upload():
             file_extension = filename.rsplit('.', 1)[1].lower()
             unique_filename = f"{user.username}_cv.{file_extension}"
 
-            # Save file
+            # file speichere
             filepath = os.path.join(UPLOAD_FOLDER, unique_filename)
 
             try:
                 file.save(filepath)
                 user.upload_cv(filepath)
                 print(f"CV saved for {user.username} at {filepath}")
-                flash("CV uploaded successfully!", "success")
+                flash("Lebenslauf erfolgreich hochgeladen!", "success")
                 return redirect("/cv/view")
             except Exception as e:
                 print(f"Error saving file: {e}")
-                flash("Error uploading file. Please try again.", "error")
+                flash("Fehler beim Hochladen. Bitte erneut versuchen.", "error")
                 return redirect("/cv")
         else:
-            flash("Invalid file type. Please upload PDF, DOC, or DOCX.", "error")
+            flash("Ungültiger Dateityp. Bitte PDF oder DOCX hochladen.", "error")
             return redirect("/cv")
 
     return render_template("cv.html", user=user, username=user.username if user else None)
@@ -86,7 +86,7 @@ def cv_download():
         if os.path.exists(filepath):
             return send_file(filepath, as_attachment=True, download_name=f"{user.username}_CV.{ext}")
 
-    flash("CV not found", "error")
+    flash("Lebenslauf nicht gefunden", "error")
     return redirect("/cv")
 
 @bp.route("/cv/delete")
@@ -109,14 +109,14 @@ def cv_delete():
                 break
             except Exception as e:
                 print(f"Error deleting file: {e}")
-                flash("Error deleting CV. Please try again.", "error")
+                flash("Fehler beim Löschen. Bitte erneut versuchen.", "error")
                 return redirect("/cv")
 
     if deleted:
         user.cv = None
         user.save_user()
-        flash("CV deleted successfully", "success")
+        flash("Lebenslauf erfolgreich gelöscht", "success")
         return redirect("/cv")
     else:
-        flash("No CV found to delete", "error")
+        flash("Kein Lebenslauf zum Löschen gefunden", "error")
         return redirect("/cv")

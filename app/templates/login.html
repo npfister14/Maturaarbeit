@@ -1,79 +1,33 @@
 {% extends "base.html" %}
 
-{% block title %}Login - JobTracker{% endblock %}
+{% block title %}Anmelden - JobTracker{% endblock %}
 
 {% block content %}
-<div class="min-h-screen flex items-center justify-center px-4 py-12">
-    <div class="max-w-md w-full animate-fade-in">
-        <!-- Logo & Title -->
-        <div class="text-center mb-8">
-            <div class="flex justify-center mb-4">
-                <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center">
-                    <span class="text-white font-bold text-2xl">J</span>
-                </div>
-            </div>
-            <h1 class="text-3xl font-bold gradient-text mb-2">Welcome Back</h1>
-            <p class="text-dark-muted">Login to manage your job applications</p>
+<div class="min-h-[80vh] flex items-center justify-center px-4">
+    <div class="max-w-sm w-full">
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-bold mb-1">Willkommen zurück</h1>
+            <p class="text-dark-muted text-sm">Melde dich an, um deine Bewerbungen zu verwalten</p>
         </div>
 
-        <!-- Login Form -->
-        <div class="card animate-slide-up">
-            <form method="POST" action="/login" id="login-form">
-                <div class="form-group">
-                    <label for="username" class="form-label">Username</label>
-                    <input
-                        type="text"
-                        id="username"
-                        name="username"
-                        class="form-input"
-                        placeholder="Enter your username"
-                        required
-                        autofocus
-                    >
+        <div class="card">
+            <form method="POST" action="/login" id="login-form" class="space-y-4">
+                <div>
+                    <label for="username" class="form-label">Benutzername</label>
+                    <input type="text" id="username" name="username" class="form-input" placeholder="Benutzername" required autofocus>
                 </div>
 
-                <div class="form-group">
-                    <label for="password" class="form-label">Password</label>
-                    <div class="relative">
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            class="form-input pr-12"
-                            placeholder="Enter your password"
-                            required
-                        >
-                        <button
-                            type="button"
-                            onclick="togglePassword('password')"
-                            class="absolute right-3 top-1/2 -translate-y-1/2 text-dark-muted hover:text-dark-text transition-colors"
-                        >
-                            <svg id="eye-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                            </svg>
-                        </button>
-                    </div>
+                <div>
+                    <label for="password" class="form-label">Passwort</label>
+                    <input type="password" id="password" name="password" class="form-input" placeholder="Passwort" required>
                 </div>
 
-                <button type="submit" class="btn-primary w-full mt-6">
-                    <span class="flex items-center justify-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
-                        </svg>
-                        Login
-                    </span>
-                </button>
+                <button type="submit" class="btn-primary w-full">Anmelden</button>
             </form>
 
-            <div class="mt-6 text-center">
-                <p class="text-dark-muted text-sm">
-                    Don't have an account?
-                    <a href="/register" class="text-blue-400 hover:text-blue-300 font-medium transition-colors">
-                        Sign up
-                    </a>
-                </p>
-            </div>
+            <p class="mt-4 text-center text-sm text-dark-muted">
+                Noch kein Konto? <a href="/register" class="text-blue-400">Registrieren</a>
+            </p>
         </div>
     </div>
 </div>
@@ -81,21 +35,8 @@
 
 {% block extra_js %}
 <script>
-function togglePassword(inputId) {
-    const input = document.getElementById(inputId);
-    const icon = document.getElementById('eye-icon');
-
-    if (input.type === 'password') {
-        input.type = 'text';
-        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>';
-    } else {
-        input.type = 'password';
-        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>';
-    }
-}
-
 document.getElementById('login-form').addEventListener('submit', function() {
-    showLoading('Logging in...');
+    showLoading('Anmelden...');
 });
 </script>
 {% endblock %}

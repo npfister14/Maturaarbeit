@@ -14,7 +14,7 @@ def index():
     user = is_logged_in(request)
     username = user.username if user else None
 
-    # Get application stats for logged-in users
+    # bewerbigs statistike für igloggti user
     application_stats = None
     if user:
         try:
@@ -22,7 +22,7 @@ def index():
             drafts = [app for app in applications if app.status == "draft"]
             submitted = [app for app in applications if app.status == "submitted"]
 
-            # Get favorites count
+            # favoritte zelle
             favorites_count = len(user.favorites) if user.favorites else 0
 
             application_stats = {

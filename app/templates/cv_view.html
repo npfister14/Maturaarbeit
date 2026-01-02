@@ -1,123 +1,40 @@
 {% extends "base.html" %}
 
-{% block title %}CV / Resume - JobTracker{% endblock %}
+{% block title %}Mein Lebenslauf - JobTracker{% endblock %}
 
 {% block content %}
-<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- Header -->
-    <div class="mb-8 text-center animate-fade-in">
-        <h1 class="text-3xl font-bold gradient-text mb-3">CV / Resume</h1>
-        <p class="text-dark-muted">{{ user.username }}</p>
+<div class="max-w-lg mx-auto px-4 py-8">
+    <div class="mb-6 text-center">
+        <h1 class="text-2xl font-bold mb-1">Mein Lebenslauf</h1>
+        <p class="text-dark-muted text-sm">{{ user.username }}</p>
     </div>
 
     {% if user.cv %}
-    <!-- CV Exists -->
-    <div class="card mb-6 animate-slide-up">
-        <div class="flex items-start gap-4 mb-6">
-            <div class="flex-shrink-0 w-16 h-16 bg-green-500/10 rounded-xl flex items-center justify-center">
-                <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-            </div>
-            <div class="flex-1">
-                <h2 class="text-2xl font-bold text-dark-text mb-2">CV Uploaded</h2>
-                <p class="text-dark-muted text-sm">Your CV is ready for job applications</p>
-            </div>
-        </div>
-
-        <div class="bg-dark-elevated rounded-lg p-4 mb-6">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <svg class="w-10 h-10 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                    </svg>
-                    <div>
-                        <p class="text-sm text-dark-muted">File Path</p>
-                        <p class="text-sm text-dark-text font-mono">{{ user.cv }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex flex-wrap gap-3">
-            <a href="/cv/download" class="btn-primary flex-1 sm:flex-none">
-                <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-                </svg>
-                Download CV
-            </a>
-            <a href="/cv" class="btn-secondary flex-1 sm:flex-none">
-                <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-                </svg>
-                Upload New CV
-            </a>
-            <a href="/cv/delete" onclick="return confirm('Are you sure you want to delete your CV? This action cannot be undone.')" class="btn-danger flex-1 sm:flex-none">
-                <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                </svg>
-                Delete CV
-            </a>
+    <div class="card mb-4">
+        <p class="font-medium mb-4">Lebenslauf hochgeladen</p>
+        <div class="flex flex-wrap gap-2">
+            <a href="/cv/download" class="btn-primary">Herunterladen</a>
+            <a href="/cv" class="btn-secondary">Neuen hochladen</a>
+            <a href="/cv/delete" onclick="return confirm('Lebenslauf löschen?')" class="btn-danger">Löschen</a>
         </div>
     </div>
 
-    <!-- Quick Actions -->
-    <div class="card animate-slide-up" style="animation-delay: 0.1s">
-        <h3 class="text-lg font-semibold text-dark-text mb-4 flex items-center">
-            <svg class="w-5 h-5 mr-2 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-            </svg>
-            Quick Actions
-        </h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <a href="/search_job" class="btn-ghost justify-start">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                </svg>
-                Search Jobs
-            </a>
-            <a href="/applications" class="btn-ghost justify-start">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                </svg>
-                My Applications
-            </a>
+    <div class="card">
+        <p class="font-medium mb-3">Schnelllinks</p>
+        <div class="space-y-2">
+            <a href="/search_job" class="block text-sm text-dark-muted hover:text-dark-text">Jobs suchen</a>
+            <a href="/applications" class="block text-sm text-dark-muted hover:text-dark-text">Meine Bewerbungen</a>
         </div>
     </div>
-
     {% else %}
-    <!-- No CV -->
-    <div class="card text-center py-16 animate-slide-up">
-        <svg class="w-24 h-24 mx-auto text-dark-muted mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-        </svg>
-        <h3 class="text-xl font-semibold mb-2">No CV Uploaded Yet</h3>
-        <p class="text-dark-muted mb-6">Upload your CV to start applying for jobs</p>
-        <div class="flex flex-wrap gap-3 justify-center">
-            <a href="/cv" class="btn-primary">
-                <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-                </svg>
-                Upload CV
-            </a>
-            <a href="/index" class="btn-secondary">
-                <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                </svg>
-                Back to Dashboard
-            </a>
-        </div>
+    <div class="card text-center py-8">
+        <p class="text-dark-muted mb-4">Noch kein Lebenslauf hochgeladen</p>
+        <a href="/cv" class="btn-primary">Lebenslauf hochladen</a>
     </div>
     {% endif %}
 
-    <!-- Back Button -->
     <div class="mt-6 text-center">
-        <a href="/index" class="text-dark-muted hover:text-dark-text inline-flex items-center transition-colors">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-            </svg>
-            Back to Dashboard
-        </a>
+        <a href="/index" class="text-dark-muted hover:text-dark-text text-sm">&larr; Zurück</a>
     </div>
 </div>
 {% endblock %}

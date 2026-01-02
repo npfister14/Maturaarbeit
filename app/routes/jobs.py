@@ -7,7 +7,7 @@ from jobspy import scrape_jobs
 from app.utils.helpers import is_logged_in
 bp = Blueprint('jobs', __name__)
 
-# File paths
+# datei pfäd
 jobs_file = os.path.join(os.path.dirname(__file__), '..', '..', 'jobs', 'jobs.json')
 default_job_sites = ["indeed", "linkedin", "google"]
 
@@ -110,7 +110,8 @@ def search():
                     emails = [clean_value(e) for e in emails if clean_value(e)]
                 else:
                     emails = []
-
+                
+                #wemmers so umständlich macht gitts (fast) nie en error
                 job = Job(
                     title=clean_value(i.get('title')) or clean_value(i.get('name')) or clean_value(i.get('job_title')) or 'No Title',
                     company=clean_value(i.get('company')) or clean_value(i.get('employer')) or 'No Company',
@@ -127,6 +128,7 @@ def search():
                     search_term=search_term
                 )
                 job.save_job()
+                #leider nur fast
             except Exception as e:
                 print(f"Error saving job: {e}, skipping this entry")
                 continue
@@ -143,8 +145,8 @@ def search():
         filtered_jobs = [j for j in all_jobs if j.get('search_term') == search_term]
 
         if filtered_jobs:
-            flash(f"Found {len(filtered_jobs)} jobs for '{search_term}'", "success")
+            flash(f"{len(filtered_jobs)} Jobs für '{search_term}' gefunden", "success")
         else:
-            flash(f"No jobs found for '{search_term}'. Try a different search term.", "error")
+            flash(f"Keine Jobs für '{search_term}' gefunden. Versuche einen anderen Suchbegriff.", "error")
 
         return render_template("jobs.html", jobs=filtered_jobs, username=username)

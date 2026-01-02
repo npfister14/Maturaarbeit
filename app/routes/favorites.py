@@ -52,9 +52,9 @@ def remove_favorite():
     if job_id:
         try:
             user.unfavorite(str(job_id))
-            flash("Job removed from favorites", "success")
+            flash("Job von Favoriten entfernt", "success")
         except Exception as e:
             print(f"Error removing favorite: {e}")
-            flash("Error removing job from favorites", "error")
+            flash("Fehler beim Entfernen des Jobs von den Favoriten", "error")
 
     return redirect("/jobs/favorites")
